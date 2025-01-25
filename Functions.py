@@ -11,6 +11,8 @@ from collections import Counter
 from pathlib import Path
 
 ## Terraform Subprocess ##
+import subprocess
+import subprocess
 
 
 
@@ -119,4 +121,495 @@ print("\nDetected Frameworks:")
 for framework, detail in frameworks.items():
     print(f"{framework}: {detail}")
 
-##### TERRAFORM #####
+
+# Function to apply Terraform configuration
+def apply_terraform(terraform_vars: Dict[str, Any]):
+    """
+    Apply the generated Terraform configuration.
+    """
+    # Initialize Terraform
+    subprocess.run(["terraform", "init"], cwd=TERRAFORM_DIR)
+
+    # Apply Terraform configuration
+    subprocess.run(["terraform", "apply", "-auto-approve"], cwd=TERRAFORM_DIR)
+
+    # Optionally, output the public IP or other details after deployment
+    print("VM Deployed Successfully. Logs will be available in Terraform output.")
+
+
+# Function to replace localhost with VM's public IP in the app
+def update_app_config(repo_dir: str, vm_ip: str):
+    """
+    Update the application code to replace 'localhost' with the deployed VM's public IP.
+    """
+    app_files = [os.path.join(repo_dir, file) for file in os.listdir(repo_dir)]
+    
+    for file in app_files:
+        with open(file, 'r') as f:
+            file_content = f.read()
+
+        file_content = file_content.replace('localhost', vm_ip)
+
+        with open(file, 'w') as f:
+            f.write(file_content)
+
+
+# Main function to automate the deployment process
+def automate_deployment(nl_input: str, repo_url: str):
+    """
+    Automate the full deployment process based on the natural language input and repository.
+    """
+    # Step 1: Parse natural language input
+    deployment_details = parse_natural_language(nl_input)
+
+    # Step 2: Download and analyze the repository
+    repo_dir = download_repository(repo_url)
+    repo_analysis = analyze_repository(repo_dir)
+
+    # Step 3: Generate Terraform configuration for GCP
+    terraform_vars = generate_terraform_config_gcp(deployment_details["app_type"], repo_dir)
+
+    # Step 4: Apply Terraform configuration to provision the VM
+    apply_terraform(terraform_vars)
+
+    # Step 5: Update app configuration to replace localhost with the public IP of the deployed VM
+    # Here, you'd get the public IP of the deployed VM (for simplicity, we're hardcoding it for now)
+    vm_ip = "XX.XX.XX.XX"  # Replace this with actual VM IP
+    update_app_config(repo_dir, vm_ip)
+
+    print(f"Deployment Successful: Your app is accessible at http://{vm_ip}")
+
+if __name__ == "__main__":
+    # Example usage
+    nl_input = "Deploy this Flask application on GCP"
+    repo_url = "https://github.com/Arvo-AI/hello_world"
+    automate_deployment(nl_input, repo_url)
+# Function to apply Terraform configuration
+def apply_terraform(terraform_vars: Dict[str, Any]):
+    """
+    Apply the generated Terraform configuration.
+    """
+    # Initialize Terraform
+    subprocess.run(["terraform", "init"], cwd=TERRAFORM_DIR)
+
+    # Apply Terraform configuration
+    subprocess.run(["terraform", "apply", "-auto-approve"], cwd=TERRAFORM_DIR)
+
+    # Optionally, output the public IP or other details after deployment
+    print("VM Deployed Successfully. Logs will be available in Terraform output.")
+
+
+# Function to replace localhost with VM's public IP in the app
+def update_app_config(repo_dir: str, vm_ip: str):
+    """
+    Update the application code to replace 'localhost' with the deployed VM's public IP.
+    """
+    app_files = [os.path.join(repo_dir, file) for file in os.listdir(repo_dir)]
+    
+    for file in app_files:
+        with open(file, 'r') as f:
+            file_content = f.read()
+
+        file_content = file_content.replace('localhost', vm_ip)
+
+        with open(file, 'w') as f:
+            f.write(file_content)
+
+
+# Main function to automate the deployment process
+def automate_deployment(nl_input: str, repo_url: str):
+    """
+    Automate the full deployment process based on the natural language input and repository.
+    """
+    # Step 1: Parse natural language input
+    deployment_details = parse_natural_language(nl_input)
+
+    # Step 2: Download and analyze the repository
+    repo_dir = download_repository(repo_url)
+    repo_analysis = analyze_repository(repo_dir)
+
+    # Step 3: Generate Terraform configuration for GCP
+    terraform_vars = generate_terraform_config_gcp(deployment_details["app_type"], repo_dir)
+
+    # Step 4: Apply Terraform configuration to provision the VM
+    apply_terraform(terraform_vars)
+
+    # Step 5: Update app configuration to replace localhost with the public IP of the deployed VM
+    # Here, you'd get the public IP of the deployed VM (for simplicity, we're hardcoding it for now)
+    vm_ip = "XX.XX.XX.XX"  # Replace this with actual VM IP
+    update_app_config(repo_dir, vm_ip)
+
+    print(f"Deployment Successful: Your app is accessible at http://{vm_ip}")
+
+if __name__ == "__main__":
+    # Example usage
+    nl_input = "Deploy this Flask application on GCP"
+    repo_url = "https://github.com/Arvo-AI/hello_world"
+    automate_deployment(nl_input, repo_url)
+# Function to apply Terraform configuration
+def apply_terraform(terraform_vars: Dict[str, Any]):
+    """
+    Apply the generated Terraform configuration.
+    """
+    # Initialize Terraform
+    subprocess.run(["terraform", "init"], cwd=TERRAFORM_DIR)
+
+    # Apply Terraform configuration
+    subprocess.run(["terraform", "apply", "-auto-approve"], cwd=TERRAFORM_DIR)
+
+    # Optionally, output the public IP or other details after deployment
+    print("VM Deployed Successfully. Logs will be available in Terraform output.")
+
+
+# Function to replace localhost with VM's public IP in the app
+def update_app_config(repo_dir: str, vm_ip: str):
+    """
+    Update the application code to replace 'localhost' with the deployed VM's public IP.
+    """
+    app_files = [os.path.join(repo_dir, file) for file in os.listdir(repo_dir)]
+    
+    for file in app_files:
+        with open(file, 'r') as f:
+            file_content = f.read()
+
+        file_content = file_content.replace('localhost', vm_ip)
+
+        with open(file, 'w') as f:
+            f.write(file_content)
+
+
+# Main function to automate the deployment process
+def automate_deployment(nl_input: str, repo_url: str):
+    """
+    Automate the full deployment process based on the natural language input and repository.
+    """
+    # Step 1: Parse natural language input
+    deployment_details = parse_natural_language(nl_input)
+
+    # Step 2: Download and analyze the repository
+    repo_dir = download_repository(repo_url)
+    repo_analysis = analyze_repository(repo_dir)
+
+    # Step 3: Generate Terraform configuration for GCP
+    terraform_vars = generate_terraform_config_gcp(deployment_details["app_type"], repo_dir)
+
+    # Step 4: Apply Terraform configuration to provision the VM
+    apply_terraform(terraform_vars)
+
+    # Step 5: Update app configuration to replace localhost with the public IP of the deployed VM
+    # Here, you'd get the public IP of the deployed VM (for simplicity, we're hardcoding it for now)
+    vm_ip = "XX.XX.XX.XX"  # Replace this with actual VM IP
+    update_app_config(repo_dir, vm_ip)
+
+    print(f"Deployment Successful: Your app is accessible at http://{vm_ip}")
+
+
+if __name__ == "__main__":
+    # Example usage
+    nl_input = "Deploy this Flask application on GCP"
+    repo_url = "https://github.com/Arvo-AI/hello_world"
+    automate_deployment(nl_input, repo_url)##### TERRAFORM #####
+
+# Function to apply Terraform configuration
+def apply_terraform(terraform_vars: Dict[str, Any]):
+    """
+    Apply the generated Terraform configuration.
+    """
+    # Initialize Terraform
+    subprocess.run(["terraform", "init"], cwd=TERRAFORM_DIR)
+
+    # Apply Terraform configuration
+    subprocess.run(["terraform", "apply", "-auto-approve"], cwd=TERRAFORM_DIR)
+
+    # Optionally, output the public IP or other details after deployment
+    print("VM Deployed Successfully. Logs will be available in Terraform output.")
+
+
+# Function to replace localhost with VM's public IP in the app
+def update_app_config(repo_dir: str, vm_ip: str):
+    """
+    Update the application code to replace 'localhost' with the deployed VM's public IP.
+    """
+    app_files = [os.path.join(repo_dir, file) for file in os.listdir(repo_dir)]
+    
+    for file in app_files:
+        with open(file, 'r') as f:
+            file_content = f.read()
+
+        file_content = file_content.replace('localhost', vm_ip)
+
+        with open(file, 'w') as f:
+            f.write(file_content)
+
+
+# Main function to automate the deployment process
+def automate_deployment(nl_input: str, repo_url: str):
+    """
+    Automate the full deployment process based on the natural language input and repository.
+    """
+    # Step 1: Parse natural language input
+    deployment_details = parse_natural_language(nl_input)
+
+    # Step 2: Download and analyze the repository
+    repo_dir = download_repository(repo_url)
+    repo_analysis = analyze_repository(repo_dir)
+
+    # Step 3: Generate Terraform configuration for GCP
+    terraform_vars = generate_terraform_config_gcp(deployment_details["app_type"], repo_dir)
+
+    # Step 4: Apply Terraform configuration to provision the VM
+    apply_terraform(terraform_vars)
+
+    # Step 5: Update app configuration to replace localhost with the public IP of the deployed VM
+    # Here, you'd get the public IP of the deployed VM (for simplicity, we're hardcoding it for now)
+    vm_ip = "XX.XX.XX.XX"  # Replace this with actual VM IP
+    update_app_config(repo_dir, vm_ip)
+
+    print(f"Deployment Successful: Your app is accessible at http://{vm_ip}")
+
+
+if __name__ == "__main__":
+    # Example usage
+    nl_input = "Deploy this Flask application on GCP"
+    repo_url = "https://github.com/Arvo-AI/hello_world"
+    automate_deployment(nl_input, repo_url)
+# Function to apply Terraform configuration
+def apply_terraform(terraform_vars: Dict[str, Any]):
+    """
+    Apply the generated Terraform configuration.
+    """
+    # Initialize Terraform
+    subprocess.run(["terraform", "init"], cwd=TERRAFORM_DIR)
+
+    # Apply Terraform configuration
+    subprocess.run(["terraform", "apply", "-auto-approve"], cwd=TERRAFORM_DIR)
+
+    # Optionally, output the public IP or other details after deployment
+    print("VM Deployed Successfully. Logs will be available in Terraform output.")
+
+
+# Function to replace localhost with VM's public IP in the app
+def update_app_config(repo_dir: str, vm_ip: str):
+    """
+    Update the application code to replace 'localhost' with the deployed VM's public IP.
+    """
+    app_files = [os.path.join(repo_dir, file) for file in os.listdir(repo_dir)]
+    
+    for file in app_files:
+        with open(file, 'r') as f:
+            file_content = f.read()
+
+        file_content = file_content.replace('localhost', vm_ip)
+
+        with open(file, 'w') as f:
+            f.write(file_content)
+
+
+# Main function to automate the deployment process
+def automate_deployment(nl_input: str, repo_url: str):
+    """
+    Automate the full deployment process based on the natural language input and repository.
+    """
+    # Step 1: Parse natural language input
+    deployment_details = parse_natural_language(nl_input)
+
+    # Step 2: Download and analyze the repository
+    repo_dir = download_repository(repo_url)
+    repo_analysis = analyze_repository(repo_dir)
+
+    # Step 3: Generate Terraform configuration for GCP
+    terraform_vars = generate_terraform_config_gcp(deployment_details["app_type"], repo_dir)
+
+    # Step 4: Apply Terraform configuration to provision the VM
+    apply_terraform(terraform_vars)
+
+    # Step 5: Update app configuration to replace localhost with the public IP of the deployed VM
+    # Here, you'd get the public IP of the deployed VM (for simplicity, we're hardcoding it for now)
+    vm_ip = "XX.XX.XX.XX"  # Replace this with actual VM IP
+    update_app_config(repo_dir, vm_ip)
+
+    print(f"Deployment Successful: Your app is accessible at http://{vm_ip}")
+
+
+if __name__ == "__main__":
+    # Example usage
+    nl_input = "Deploy this Flask application on GCP"
+    repo_url = "https://github.com/Arvo-AI/hello_world"
+    automate_deployment(nl_input, repo_url)
+# Function to apply Terraform configuration
+def apply_terraform(terraform_vars: Dict[str, Any]):
+    """
+    Apply the generated Terraform configuration.
+    """
+    # Initialize Terraform
+    subprocess.run(["terraform", "init"], cwd=TERRAFORM_DIR)
+
+    # Apply Terraform configuration
+    subprocess.run(["terraform", "apply", "-auto-approve"], cwd=TERRAFORM_DIR)
+
+    # Optionally, output the public IP or other details after deployment
+    print("VM Deployed Successfully. Logs will be available in Terraform output.")
+
+
+# Function to replace localhost with VM's public IP in the app
+def update_app_config(repo_dir: str, vm_ip: str):
+    """
+    Update the application code to replace 'localhost' with the deployed VM's public IP.
+    """
+    app_files = [os.path.join(repo_dir, file) for file in os.listdir(repo_dir)]
+    
+    for file in app_files:
+        with open(file, 'r') as f:
+            file_content = f.read()
+
+        file_content = file_content.replace('localhost', vm_ip)
+
+        with open(file, 'w') as f:
+            f.write(file_content)
+
+
+# Main function to automate the deployment process
+def automate_deployment(nl_input: str, repo_url: str):
+    """
+    Automate the full deployment process based on the natural language input and repository.
+    """
+    # Step 1: Parse natural language input
+    deployment_details = parse_natural_language(nl_input)
+
+    # Step 2: Download and analyze the repository
+    repo_dir = download_repository(repo_url)
+    repo_analysis = analyze_repository(repo_dir)
+
+    # Step 3: Generate Terraform configuration for GCP
+    terraform_vars = generate_terraform_config_gcp(deployment_details["app_type"], repo_dir)
+
+    # Step 4: Apply Terraform configuration to provision the VM
+    apply_terraform(terraform_vars)
+
+    # Step 5: Update app configuration to replace localhost with the public IP of the deployed VM
+    # Here, you'd get the public IP of the deployed VM (for simplicity, we're hardcoding it for now)
+    vm_ip = "XX.XX.XX.XX"  # Replace this with actual VM IP
+    update_app_config(repo_dir, vm_ip)
+
+    print(f"Deployment Successful: Your app is accessible at http://{vm_ip}")
+
+
+if __name__ == "__main__":
+    # Example usage
+    nl_input = "Deploy this Flask application on GCP"
+    repo_url = "https://github.com/Arvo-AI/hello_world"
+    automate_deployment(nl_input, repo_url)# Function to generate Terraform configuration dynamically for GCP
+def generate_terraform_config_gcp(app_type: str, repo_dir: str):
+    terraform_vars = {
+        "machine_type": "e2-micro",  # Default size for GCP, can be adjusted based on the app_type
+        "os_image_family": "debian-11",  # Default OS image family
+        "disk_size": "20",  # Disk size in GB
+    }
+
+    # Modify configuration based on app type
+    if app_type == "Node.js":
+        terraform_vars["machine_type"] = "e2-medium"
+    elif app_type == "Python (Flask/Django)":
+        terraform_vars["machine_type"] = "e2-standard-2"
+    elif app_type == "Java":
+        terraform_vars["machine_type"] = "e2-standard-4"
+
+    # Create Terraform configuration
+    terraform_config = f"""
+    provider "google" {{
+        credentials = file("<PATH_TO_YOUR_SERVICE_ACCOUNT_KEY>.json")
+        project     = "<YOUR_GCP_PROJECT_ID>"
+        region      = "us-central1"
+    }}
+
+    resource "google_compute_instance" "app_vm" {{
+        name         = "app-vm"
+        machine_type = "{terraform_vars['machine_type']}"
+        zone         = "us-central1-a"
+
+        boot_disk {{
+            initialize_params {{
+                image = "projects/debian-cloud/global/images/family/{terraform_vars['os_image_family']}"
+                size  = {terraform_vars['disk_size']}
+            }}
+        }}
+
+        network_interface {{
+            network = "default"
+            access_config {{
+            }}
+        }}
+
+        tags = ["http-server"]
+
+        metadata_startup_script = <<EOT
+        #!/bin/bash
+        sudo apt update
+        sudo apt install -y python3 python3-pip
+        cd /home
+        git clone {repo_dir}
+        cd repo
+        pip3 install -r requirements.txt
+        python3 app.py
+        EOT
+    }}
+    """
+
+    # Save the Terraform configuration to a file
+    os.makedirs(TERRAFORM_DIR, exist_ok=True)
+    with open(os.path.join(TERRAFORM_DIR, 'main.tf'), 'w') as tf_file:
+        tf_file.write(terraform_config)
+
+    return terraform_vars
+
+
+# Function to apply Terraform configuration
+def apply_terraform(terraform_vars: Dict[str, Any]):
+    """
+    Apply the generated Terraform configuration.
+    """
+    # Initialize Terraform
+    subprocess.run(["terraform", "init"], cwd=TERRAFORM_DIR)
+
+    # Apply Terraform configuration
+    subprocess.run(["terraform", "apply", "-auto-approve"], cwd=TERRAFORM_DIR)
+
+    # Optionally, output the public IP or other details after deployment
+    print("VM Deployed Successfully. Logs will be available in Terraform output.")
+
+
+# Function to replace localhost with VM's public IP in the app
+def update_app_config(repo_dir: str, vm_ip: str):
+    """
+    Update the application code to replace 'localhost' with the deployed VM's public IP.
+    """
+    app_files = [os.path.join(repo_dir, file) for file in os.listdir(repo_dir)]
+    
+    for file in app_files:
+        with open(file, 'r') as f:
+            file_content = f.read()
+
+        file_content = file_content.replace('localhost', vm_ip)
+
+        with open(file, 'w') as f:
+            f.write(file_content)
+
+
+# Main function to automate the deployment process
+def automate_deployment(nl_input: str, repo_url: str):
+    """
+    Generate Terraform configuration for GCP based on app type.
+    """
+    terraform_vars = {
+        "machine_type": "e2-micro",  # Default size for GCP, can be adjusted based on the app_type
+        "os_image_family": "debian-11",  # Default OS image family
+        "disk_size": "20",  # Disk size in GB
+    }
+
+    # Modify configuration based on app type
+    if app_type == "Node.js":
+        terraform_vars["machine_type"] = "e2-medium"
+    elif app_type == "Python (Flask/Django)":
+        terraform_vars["machine_type"] = "e2-standard-2"
+    elif app_type == "Java":
+        terraform_vars["machine_type"] = "e2-standard-4"
