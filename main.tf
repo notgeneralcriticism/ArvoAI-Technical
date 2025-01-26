@@ -1,24 +1,42 @@
 
-        provider "aws" {
-            region = "us-east-1"
+        provider "google" {
+            project = "arvoaitechnical"
+            region  = "us-central1-a"
+            credentials = file("application_default_credentials.json")
         }
 
-        resource "aws_instance" "app" {
-            ami           = "ami-0c55b159cbfafe1f0"  # Amazon Linux 2
-            instance_type = "t2.micro"
+        resource "google_compute_instance" "app" {
+            name         = "arvoaitech"
+            machine_type = "e2-micro"
+            zone         = "us-central1-a"
 
-            tags = {
-                Name = "autodeploy-app"
+            boot_disk {
+                initialize_params {
+                    image = "projects/debian-cloud/global/images/family/debian-11"
+                }
             }
 
-            user_data = <<-EOT
+            network_interface {
+                network = "default"
+                access_config {}
+            }
+
+            metadata_startup_script = <<-EOT
             #!/bin/bash
-            sudo yum update -y
-            sudo yum install -y git python3
-            git clone https://github.com/Arvo-AI/hello_world.git /home/ec2-user/app
-            cd /home/ec2-user/app
-            python3 -m pip install -r requirements.txt
+            apt-get update
+            apt-get install -y python3-pip git
+            git clone https://github.com/Arvo-AI/hello_world.git /app
+            cd /app
+            pip3 install -r requirements.txt
             python3 app.py
+
+            # Serve HTML/CSS files
+            # cp -r /app/static/* /var/www/html/
+            # systemctl restart nginx
+            
             EOT
         }
+            output "vm_public_ip" {
+                value = google_compute_instance.app.network_interface[0].access_config[0].nat_ip
+            }
         
