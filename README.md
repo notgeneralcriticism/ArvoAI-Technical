@@ -8,5 +8,6 @@ References
 [3] Ju-Shim, “Overview of virtual machines in Azure - Azure Virtual Machines,” Overview of virtual machines in Azure - Azure Virtual Machines | Microsoft Learn, https://learn.microsoft.com/en-us/azure/virtual-machines/overview (accessed Jan. 26, 2025). 
 [4] OpenAI platform, https://platform.openai.com/docs/overview (accessed Jan. 26, 2025). 
 
+
 I had a lot of fun making this! A lot of new experiences for sure, so thank you for the opportunity!
 ~ Riya
